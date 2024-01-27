@@ -46,7 +46,7 @@ final class FetchEmployeeDetailsUseCaseTests: XCTestCase {
     }
 }
 
-internal class MockEmployeesRepository: EmployeesRepository {
+fileprivate class MockEmployeesRepository: EmployeesRepository {
     var employeeDetails: Employee?
     var error: Error?
 
