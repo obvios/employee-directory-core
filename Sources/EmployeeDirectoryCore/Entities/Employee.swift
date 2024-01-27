@@ -14,4 +14,5 @@ public struct Employee: Identifiable {
     public let firstName: String
     public let lastName: String
     public let dateStarted: Date
+    public let email: String
 }
