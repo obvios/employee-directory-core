@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+public protocol EmployeesRepository {
+    func fetchEmployees() async throws -> [Employee]
+}
