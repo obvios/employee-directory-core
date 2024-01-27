@@ -7,14 +7,14 @@
 
 import Foundation
 
-class FetchEmployeeDetailsUseCase {
+public class FetchEmployeeDetailsUseCase {
     private let repository: EmployeesRepository
 
     init(repository: EmployeesRepository) {
         self.repository = repository
     }
 
-    func execute(employeeId: String) async throws -> Employee {
+    public func execute(employeeId: String) async throws -> Employee {
         return try await repository.fetchEmployeeDetails(id: employeeId)
     }
 }
