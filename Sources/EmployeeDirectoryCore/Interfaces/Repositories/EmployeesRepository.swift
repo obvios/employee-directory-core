@@ -9,4 +9,5 @@ import Foundation
 
 public protocol EmployeesRepository {
     func fetchEmployees() async throws -> [Employee]
+    func fetchEmployeeDetails(id: String) async throws -> Employee
 }
