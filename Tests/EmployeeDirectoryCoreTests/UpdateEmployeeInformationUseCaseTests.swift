@@ -58,6 +58,51 @@ final class UpdateEmployeeInformationUseCaseTests: XCTestCase {
             XCTAssertEqual(error as NSError, expectedError)
         }
     }
+    
+    func testUpdateEmployeeInformationWithInvalidEmail() async {
+        // Arrange
+        let mockRepository = MockEmployeesRepository()
+        let employeeWithInvalidEmail = Employee(
+            id: "1",
+            firstName: "John",
+            lastName: "Doe",
+            dateStarted: Date(),
+            email: "invalid.email@example.com",
+            title: "iOS Developer"
+        )
+        let useCase = UpdateEmployeeInformationUseCase(repository: mockRepository)
+
+        // Act and Assert
+        do {
+            try await useCase.execute(employee: employeeWithInvalidEmail)
+            XCTFail("Expected to throw ValidationError.invalidEmail, but it did not")
+        } catch ValidationError.invalidEmail {
+            // Test passes, expected error was thrown
+        } catch {
+            XCTFail("Unexpected error type: \(error)")
+        }
+    }
+
+    func testUpdateEmployeeInformationWithValidEmail() async throws {
+        // Arrange
+        let mockRepository = MockEmployeesRepository()
+        let employeeWithValidEmail = Employee(
+            id: "2",
+            firstName: "Jane",
+            lastName: "Smith",
+            dateStarted: Date(),
+            email: "jane.smith@example.com",
+            title: "Project Manager"
+        )
+        let useCase = UpdateEmployeeInformationUseCase(repository: mockRepository)
+
+        // Act
+        try await useCase.execute(employee: employeeWithValidEmail)
+
+        // Assert
+        XCTAssertTrue(mockRepository.updateEmployeeCalled)
+        XCTAssertEqual(mockRepository.lastUpdatedEmployee?.email, employeeWithValidEmail.email)
+    }
 }
 
 fileprivate class MockEmployeesRepository: EmployeesRepository {
