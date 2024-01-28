@@ -18,7 +18,8 @@ final class UpdateEmployeeInformationUseCaseTests: XCTestCase {
             firstName: "John",
             lastName: "Doe",
             dateStarted: Date(),
-            email: "john.doe@example.com"
+            email: "john.doe@example.com",
+            title: "iOS Developer"
         )
         let useCase = UpdateEmployeeInformationUseCase(repository: mockRepository)
 
@@ -44,7 +45,8 @@ final class UpdateEmployeeInformationUseCaseTests: XCTestCase {
             firstName: "John",
             lastName: "Doe",
             dateStarted: Date(),
-            email: "john.doe@example.com"
+            email: "john.doe@example.com",
+            title: "iOS Developer"
         )
         let useCase = UpdateEmployeeInformationUseCase(repository: mockRepository)
 

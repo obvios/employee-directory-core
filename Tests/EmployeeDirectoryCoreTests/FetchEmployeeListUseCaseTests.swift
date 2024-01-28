@@ -13,8 +13,8 @@ final class FetchEmployeeListUseCaseTests: XCTestCase {
     func testFetchEmployeeListSuccess() async throws {
         // Arrange
         let mockRepository = MockEmployeesRepository()
-        let expectedEmployees = [Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com"),
-                                 Employee(id: "2", firstName: "Joe", lastName: "Common", dateStarted: Date(), email: "joe.common@example.com")]
+        let expectedEmployees = [Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com", title: "iOS Developer"),
+                                 Employee(id: "2", firstName: "Joe", lastName: "Common", dateStarted: Date(), email: "joe.common@example.com", title: "Android Developer")]
         mockRepository.employees = expectedEmployees
         let useCase = FetchEmployeeListUseCase(repository: mockRepository)
 

@@ -13,7 +13,7 @@ final class FetchEmployeeDetailsUseCaseTests: XCTestCase {
     func testFetchEmployeeDetailsSuccess() async throws {
         // Arrange
         let mockRepository = MockEmployeesRepository()
-        let expectedEmployee = Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com")
+        let expectedEmployee = Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com", title: "iOS Developer")
         mockRepository.employeeDetails = expectedEmployee
         let useCase = FetchEmployeeDetailsUseCase(repository: mockRepository)
 
