@@ -14,8 +14,16 @@ public class FetchEmployeeListUseCase {
         self.repository = repository
     }
 
-    public func execute() async throws -> [Employee] {
-        return try await repository.fetchEmployees()
+    public func execute(searchTerm: String? = nil) async throws -> [Employee] {
+        let allEmployees = try await repository.fetchEmployees()
+        
+        guard let searchTerm = searchTerm, !searchTerm.isEmpty else {
+            return allEmployees
+        }
+
+        return allEmployees.filter { employee in
+            employee.firstName.lowercased().contains(searchTerm.lowercased()) ||
+            employee.lastName.lowercased().contains(searchTerm.lowercased())
+        }
     }
 }
-
