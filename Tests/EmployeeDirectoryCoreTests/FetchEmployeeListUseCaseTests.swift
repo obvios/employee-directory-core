@@ -43,6 +43,65 @@ final class FetchEmployeeListUseCaseTests: XCTestCase {
             XCTAssertEqual(error as NSError, expectedError)
         }
     }
+    
+    func testFetchEmployeeListWithSearchSuccess() async throws {
+        // Arrange
+        let mockRepository = MockEmployeesRepository()
+        let expectedEmployees = [
+            Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com", title: "iOS Developer"),
+            Employee(id: "2", firstName: "Jane", lastName: "Doe", dateStarted: Date(), email: "jane.doe@example.com", title: "Android Developer"),
+            Employee(id: "3", firstName: "Joe", lastName: "Common", dateStarted: Date(), email: "joe.common@example.com", title: "Web Developer")
+        ]
+        mockRepository.employees = expectedEmployees
+        let useCase = FetchEmployeeListUseCase(repository: mockRepository)
+        let searchTerm = "Doe"
+
+        // Act
+        let result = try await useCase.execute(searchTerm: searchTerm)
+
+        // Assert
+        XCTAssertEqual(result.count, 2) // Expecting two employees with last name "Doe"
+        XCTAssertTrue(result.allSatisfy { $0.lastName.contains("Doe") })
+    }
+    
+    func testFetchEmployeeListWithSearchMatchingFirstNameAndLastName() async throws {
+        // Arrange
+        let mockRepository = MockEmployeesRepository()
+        let expectedEmployees = [
+            Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com", title: "iOS Developer"),
+            Employee(id: "2", firstName: "Jane", lastName: "Doe", dateStarted: Date(), email: "jane.doe@example.com", title: "Android Developer"),
+            Employee(id: "3", firstName: "Alice", lastName: "Johnson", dateStarted: Date(), email: "alice.johnson@example.com", title: "Web Developer"),
+            Employee(id: "4", firstName: "Bob", lastName: "Smith", dateStarted: Date(), email: "bob.smith@example.com", title: "Project Manager")
+        ]
+        mockRepository.employees = expectedEmployees
+        let useCase = FetchEmployeeListUseCase(repository: mockRepository)
+        let searchTerm = "John"
+
+        // Act
+        let result = try await useCase.execute(searchTerm: searchTerm)
+
+        // Assert
+        XCTAssertEqual(result.count, 2) // Expecting three employees matching "John" in first or last name
+        XCTAssertTrue(result.contains(where: { $0.id == "1" })) // John Doe
+        XCTAssertTrue(result.contains(where: { $0.id == "3" })) // Alice Johnson
+    }
+
+    func testFetchEmployeeListWithEmptySearch() async throws {
+        // Arrange
+        let mockRepository = MockEmployeesRepository()
+        let expectedEmployees = [
+            Employee(id: "1", firstName: "John", lastName: "Doe", dateStarted: Date(), email: "john.doe@example.com", title: "iOS Developer"),
+            Employee(id: "2", firstName: "Jane", lastName: "Doe", dateStarted: Date(), email: "jane.doe@example.com", title: "Android Developer")
+        ]
+        mockRepository.employees = expectedEmployees
+        let useCase = FetchEmployeeListUseCase(repository: mockRepository)
+
+        // Act
+        let result = try await useCase.execute(searchTerm: "")
+
+        // Assert
+        XCTAssertEqual(result.count, expectedEmployees.count) // Expecting all employees as search term is empty
+    }
 }
 
 fileprivate class MockEmployeesRepository: EmployeesRepository {
