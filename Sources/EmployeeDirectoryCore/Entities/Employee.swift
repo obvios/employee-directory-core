@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Employee: Identifiable {
+public struct Employee: Identifiable, Codable {
     public typealias Identifier = String
     
     public let id: Identifier
@@ -16,4 +16,18 @@ public struct Employee: Identifiable {
     public let dateStarted: Date
     public let email: String
     public let title: String
+    
+    public init(id: Identifier,
+                firstName: String,
+                lastName: String,
+                dateStarted: Date,
+                email: String,
+                title: String) {
+            self.id = id
+            self.firstName = firstName
+            self.lastName = lastName
+            self.dateStarted = dateStarted
+            self.email = email
+            self.title = title
+    }
 }
