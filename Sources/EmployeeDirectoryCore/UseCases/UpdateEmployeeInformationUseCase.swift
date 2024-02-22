@@ -10,7 +10,7 @@ import Foundation
 public class UpdateEmployeeInformationUseCase {
     private let repository: EmployeesRepository
 
-    init(repository: EmployeesRepository) {
+    public init(repository: EmployeesRepository) {
         self.repository = repository
     }
 
